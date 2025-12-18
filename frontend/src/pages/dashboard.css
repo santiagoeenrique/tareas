@@ -160,7 +160,6 @@ input[type="checkbox"] {
     gap: 15px;
 }
 
-/* Círculo para tachar a la izquierda 
 .check-btn {
     background: none;
     border: 2px solid #ddd;
@@ -175,13 +174,11 @@ input[type="checkbox"] {
     justify-content: center;
 }
 
-/* Tachar con una línea cuando está completado 
 .task-item.completed .task-text {
     text-decoration: line-through;
     color: #888;
 }
 
-/* Botón Borrar: Rojo, letras blancas, borde 4px 
 .delete-btn-red {
     background-color: #ff4d4d;
     color: white;
@@ -195,17 +192,28 @@ input[type="checkbox"] {
 
 .delete-btn-red:hover {
     background-color: #cc0000;
-}
-/* Forzamos el tachado usando el contenedor padre 
+} 
 .task-list .task-item.completed .task-text {
     text-decoration: line-through !important;
-    text-decoration-color: red !important; /* Opcional: línea roja para que se note más 
+    text-decoration-color: red !important;
     color: #888 !important;
-    display: inline-block; /* A veces ayuda a que el text-decoration funcione 
+    display: inline-block; 
 }
 
- Estilo del círculo cuando está completado
 .task-list .task-item.completed .check-btn {
     background-color: #4a4ae2 !important;
     color: white !important;
     border-color: #4a4ae2 !important;
+}
+/* Este selector es tan largo que le gana a cualquier otro estilo del proyecto */
+div.dashboard-container div.task-list div.task-item.completed span.task-text {
+    text-decoration: line-through !important;
+    color: #888 !important;
+    display: inline-block !important;
+}
+
+/* Para que el círculo se pinte de azul al estar completado */
+div.dashboard-container div.task-list div.task-item.completed button.check-btn {
+    background-color: #4a4ae2 !important;
+    color: white !important;
+}
