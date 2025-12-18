@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import API from '../api';
-import './Dashboard.css';
+import './dashboard.css';
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
