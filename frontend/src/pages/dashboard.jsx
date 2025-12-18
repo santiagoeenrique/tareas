@@ -1,4 +1,4 @@
-/*import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import API from '../api';
 import './dashboard.css'; // Asegúrate de tener este CSS para los estilos
 
@@ -99,7 +99,7 @@ function Dashboard() {
 }
 
 export default Dashboard;
-*/
+/*
 import { useState, useEffect } from 'react';
 import API from '../api';
 import './dashboard.css';
@@ -196,3 +196,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+*/
