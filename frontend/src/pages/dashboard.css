@@ -140,3 +140,12 @@ body {
 .delete-btn-red:hover {
     background-color: #cc0000;
 }
+/* EN DASHBOARD.CSS */
+.task-item.completed .task-text,
+.task-item.completed span {
+    text-decoration: line-through !important;
+    text-decoration-color: red !important;
+    text-decoration-thickness: 3px !important;
+    color: #888 !important;
+    display: inline-block !important;
+}
