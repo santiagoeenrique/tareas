@@ -12,7 +12,7 @@ function Login() {
         console.log("Intentando login en:", API.defaults.baseURL + '/auth/login');
 
         try {
-            const { data } = await API.post('/auth/login', { email, password });
+            const { data } = await API.post('/api/auth/login', { email, password });
             
             localStorage.setItem('token', data.token);
             
