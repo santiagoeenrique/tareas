@@ -1,3 +1,4 @@
+/*
 body {
     background-color: #f0f2f5;
     margin: 0;
@@ -94,4 +95,105 @@ input[type="checkbox"] {
 .task-item span {
     font-size: 16px;
     transition: all 0.3s ease;
+}
+*/
+.dashboard-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* Botón Cerrar Sesión: Rojo, letras blancas, borde 4px */
+.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: 4px solid #cc0000;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.task-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.task-form input {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+.add-btn {
+    background: #4a4ae2;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Círculo para tachar a la izquierda */
+.check-btn {
+    background: none;
+    border: 2px solid #ddd;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #4a4ae2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tachar con una línea cuando está completado */
+.task-item.completed .task-text {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Botón Borrar: Rojo, letras blancas, borde 4px */
+.delete-btn-red {
+    background-color: #ff4d4d;
+    color: white;
+    border: 4px solid #cc0000;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.delete-btn-red:hover {
+    background-color: #cc0000;
 }
