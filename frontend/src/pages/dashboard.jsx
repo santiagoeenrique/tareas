@@ -93,7 +93,12 @@ function Dashboard() {
                                         {task.completed ? '●' : '○'}
                                     </button>
                                     {/* IMPORTANTE: El span ahora tiene la clase 'task-text' para que el CSS lo encuentre */}
-                                    <span className="task-text">{task.title}</span>
+                                    <span 
+                                        className="task-text" 
+                                        style={{ textDecoration: task.completed ? 'line-through red 3px' : 'none' }}
+                                            >       
+                                                {task.title}
+                                                </span>
                                 </div>
                                 <button onClick={() => deleteTask(task._id)} className="delete-btn-red">
                                     Borrar
