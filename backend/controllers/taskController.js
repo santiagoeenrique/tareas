@@ -1,4 +1,4 @@
-const Task = require('../models/Task');
+const Task = require('../models/task');
 
 // Obtener todas las tareas del usuario logueado
 const getTasks = async (req, res) => {
