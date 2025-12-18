@@ -1,83 +1,59 @@
-const Task = require('../models/task');
+const Task = require('../models/Task');
 
+// Obtener todas las tareas del usuario logueado
 const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ user: req.user._id }).sort({ createdAt: -1 });
-        res.json(tasks);
+        // En tu código anterior buscabas el usuario manualmente. 
+        // Aquí usamos req.user._id que viene del middleware 'protect'.
+        const tasks = await Task.find({ user: req.user._id });
+        res.status(200).json(tasks);
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener tareas' });
+        res.status(500).json({ message: "Error al obtener las tareas", error: error.message });
     }
 };
 
-const getTaskById = async (req, res) => {
-    try {
-        const task = await Task.findById(req.params.id);
-
-        if (!task) {
-            return res.status(404).json({ message: 'Tarea no encontrada' });
-        }
-
-        if (task.user.toString() !== req.user._id.toString()) {
-            return res.status(401).json({ message: 'No autorizado' });
-        }
-
-        res.json(task);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al obtener la tarea', error: error.message });
-    }
-};
-
+// Crear una nueva tarea
 const createTask = async (req, res) => {
+    // IMPORTANTE: Tu frontend debe enviar "title". 
+    // Si tu frontend envía "text", cambia 'title' por 'text' aquí abajo.
     const { title } = req.body;
+
     if (!title) {
-        return res.status(400).json({ message: 'El campo "title" es obligatorio' });
+        return res.status(400).json({ message: "El título de la tarea es obligatorio" });
     }
+
     try {
-        const task = new Task({
+        const newTask = new Task({
             title,
-            user: req.user._id,
+            user: req.user._id // Vinculamos la tarea al ID del usuario que inició sesión
         });
-        const createdTask = await task.save();
-        res.status(201).json(createdTask);
+
+        const savedTask = await newTask.save();
+        res.status(201).json(savedTask);
     } catch (error) {
-        res.status(500).json({ message: 'Error al crear la tarea' });
+        res.status(500).json({ message: "Error al crear la tarea", error: error.message });
     }
 };
 
-const updateTask = async (req, res) => {
-    try {
-        const task = await Task.findById(req.params.id);
-        if (!task) {
-            return res.status(404).json({ message: 'Tarea no encontrada' });
-        }
-        if (task.user.toString() !== req.user._id.toString()) {
-            return res.status(401).json({ message: 'No autorizado' });
-        }
-        
-        task.title = req.body.title || task.title;
-        task.isCompleted = req.body.isCompleted !== undefined ? req.body.isCompleted : task.isCompleted;
-        
-        const updatedTask = await task.save();
-        res.json(updatedTask);
-    } catch (error) {
-        res.status(500).json({ message: 'Error al actualizar la tarea' });
-    }
-};
-
+// Eliminar una tarea
 const deleteTask = async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
+
         if (!task) {
-            return res.status(404).json({ message: 'Tarea no encontrada' });
+            return res.status(404).json({ message: "Tarea no encontrada" });
         }
+
+        // Seguridad: Verificar que la tarea pertenezca al usuario que intenta borrarla
         if (task.user.toString() !== req.user._id.toString()) {
-            return res.status(401).json({ message: 'No autorizado' });
+            return res.status(401).json({ message: "No tienes permiso para borrar esta tarea" });
         }
-        await Task.deleteOne({ _id: task._id });
-        res.json({ message: 'Tarea eliminada correctamente' });
+
+        await task.deleteOne();
+        res.status(200).json({ message: "Tarea eliminada correctamente" });
     } catch (error) {
-        res.status(500).json({ message: 'Error al eliminar la tarea' });
+        res.status(500).json({ message: "Error al eliminar la tarea", error: error.message });
     }
 };
 
-module.exports = { getTasks, getTaskById, createTask, updateTask, deleteTask };
+module.exports = { getTasks, createTask, deleteTask };

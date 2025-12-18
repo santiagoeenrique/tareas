@@ -1,110 +1,99 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import API from '../api';
-import './dashboard.css';
+import './dashboard.css'; // Asegúrate de tener este CSS para los estilos
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
-    const [title, setTitle] = useState('');
-
-    const fetchTasks = async () => {
-        try {
-            const { data } = await API.get('/tasks');
-            setTasks(data);
-        } catch (error) {
-            console.error("Error al obtener tareas");
-        }
-    };
+    const [newTask, setNewTask] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = '/login';
-            return;
-        }
         fetchTasks();
     }, []);
 
-    const addTask = async (e) => {
-        e.preventDefault();
+    const fetchTasks = async () => {
         try {
-            await API.post('/tasks', { title });
-            setTitle('');
-            fetchTasks();
+            const { data } = await API.get('/api/tasks');
+            setTasks(data);
+            setLoading(false);
         } catch (error) {
-            alert("Error al añadir tarea");
+            console.error("Error al cargar tareas:", error);
+            setLoading(false);
         }
     };
 
-    const toggleTask = async (id, completed) => {
+    const addTask = async (e) => {
+        e.preventDefault();
+        if (!newTask.trim()) return;
+
         try {
-            await API.put(`/tasks/${id}`, { isCompleted: !completed });
-            fetchTasks();
+            const { data } = await API.post('/api/tasks', { title: newTask });
+            setTasks([...tasks, data]);
+            setNewTask('');
         } catch (error) {
-            alert("Error al actualizar tarea");
+            alert("Error al agregar tarea");
+        }
+    };
+
+    const toggleComplete = async (id, completed) => {
+        try {
+            const { data } = await API.put(`/api/tasks/${id}`, { completed: !completed });
+            setTasks(tasks.map(t => (t._id === id ? data : t)));
+        } catch (error) {
+            console.error("Error al actualizar:", error);
         }
     };
 
     const deleteTask = async (id) => {
+        if (!window.confirm("¿Eliminar esta tarea?")) return;
         try {
-            await API.delete(`/tasks/${id}`);
-            fetchTasks();
+            await API.delete(`/api/tasks/${id}`);
+            setTasks(tasks.filter(t => t._id !== id));
         } catch (error) {
-            alert("Error al eliminar");
+            console.error("Error al eliminar:", error);
         }
     };
 
-    const handleLogout = () => {
+    const logout = () => {
         localStorage.removeItem('token');
         window.location.href = '/login';
     };
 
     return (
         <div className="dashboard-container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>📑 Mis Tareas</h1>
-                <button onClick={handleLogout} className="btn-logout">Salir</button>
-            </div>
+            <header className="dashboard-header">
+                <h1>Mis Pendientes</h1>
+                <button onClick={logout} className="logout-btn">Cerrar Sesión</button>
+            </header>
 
-            <form onSubmit={addTask} className="task-form">
+            <form className="task-form" onSubmit={addTask}>
                 <input 
                     type="text" 
-                    placeholder="¿Qué hay que hacer hoy?" 
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
+                    placeholder="Escribe una nueva tarea..." 
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
                 />
                 <button type="submit">Agregar</button>
             </form>
 
-            <div className="task-list">
-                {tasks.map(task => (
-                    <div key={task._id} className="task-item">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} 
-                             onClick={() => toggleTask(task._id, task.isCompleted)}>
-                            <input 
-                                type="checkbox" 
-                                checked={task.isCompleted} 
-                                readOnly 
-                            />
-                            <span style={{ 
-                                textDecoration: task.isCompleted ? 'line-through' : 'none',
-                                color: task.isCompleted ? '#999' : '#000'
-                            }}>
-                                {task.title}
-                            </span>
-                        </div>
-                        <button 
-                            className="btn-delete"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                deleteTask(task._id);
-                            }}
-                        >
-                            Eliminar
-                        </button>
-                    </div>
-                ))}
-            </div>
+            {loading ? (
+                <p>Cargando tareas...</p>
+            ) : (
+                <div className="task-list">
+                    {tasks.length === 0 ? (
+                        <p>No tienes tareas pendientes. ¡Buen trabajo!</p>
+                    ) : (
+                        tasks.map(task => (
+                            <div key={task._id} className={`task-item ${task.completed ? 'completed' : ''}`}>
+                                <span onClick={() => toggleComplete(task._id, task.completed)}>
+                                    {task.title}
+                                </span>
+                                <button onClick={() => deleteTask(task._id)} className="delete-btn">🗑️</button>
+                            </div>
+                        ))
+                    )}
+                </div>
+            )}
         </div>
     );
 }
