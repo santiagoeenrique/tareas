@@ -113,8 +113,6 @@ input[type="checkbox"] {
     margin-bottom: 25px;
 }
 
-/*
-/* Botón Cerrar Sesión: Rojo, letras blancas, borde 4px 
 .logout-btn {
     background-color: #ff4d4d;
     color: white;
@@ -206,9 +204,8 @@ input[type="checkbox"] {
     display: inline-block; /* A veces ayuda a que el text-decoration funcione 
 }
 
-/* Estilo del círculo cuando está completado
+ Estilo del círculo cuando está completado
 .task-list .task-item.completed .check-btn {
     background-color: #4a4ae2 !important;
     color: white !important;
     border-color: #4a4ae2 !important;
-}*/
