@@ -44,7 +44,7 @@ function Login() {
                     />
                     <button type="submit">Iniciar Sesión</button>
                 </form>
-                <p>¿No tienes cuenta? <a href="/register">Regístrate</a></p>
+                <p>¿No tienes cuenta? <a href='/register'>Regístrate</a></p>
             </div>
         </div>
     );
