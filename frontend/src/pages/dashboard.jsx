@@ -30,7 +30,7 @@ function Dashboard() {
             setTasks([...tasks, data]);
             setNewTask('');
         } catch (error) {
-            alert("Error al agregar tarea");
+            alert("Error al agregar");
         }
     };
 
@@ -39,17 +39,17 @@ function Dashboard() {
             const { data } = await API.put(`/api/tasks/${id}`, { completed: !completed });
             setTasks(tasks.map(t => (t._id === id ? data : t)));
         } catch (error) {
-            console.error("Error al actualizar:", error);
+            console.error(error);
         }
     };
 
     const deleteTask = async (id) => {
-        if (!window.confirm("¿Eliminar esta tarea?")) return;
+        if (!window.confirm("¿Borrar?")) return;
         try {
             await API.delete(`/api/tasks/${id}`);
             setTasks(tasks.filter(t => t._id !== id));
         } catch (error) {
-            console.error("Error al eliminar:", error);
+            console.error(error);
         }
     };
 
@@ -68,46 +68,42 @@ function Dashboard() {
             <form className="task-form" onSubmit={addTask}>
                 <input 
                     type="text" 
-                    placeholder="Escribe una nueva tarea..." 
+                    placeholder="Nueva tarea..." 
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
                 />
                 <button type="submit" className="add-btn">Agregar</button>
             </form>
 
-            {loading ? (
-                <p>Cargando tareas...</p>
-            ) : (
-                <div className="task-list">
-                    {tasks.length === 0 ? (
-                        <p>No tienes tareas pendientes.</p>
-                    ) : (
-                        tasks.map(task => (
-                            /* El contenedor gana la clase 'completed' */
-                            <div key={task._id} className={`task-item ${task.completed ? 'completed' : ''}`}>
-                                <div className="task-left">
-                                    <button 
-                                        className="check-btn" 
-                                        onClick={() => toggleComplete(task._id, task.completed)}
-                                    >
-                                        {task.completed ? '●' : '○'}
-                                    </button>
-                                    {/* IMPORTANTE: El span ahora tiene la clase 'task-text' para que el CSS lo encuentre */}
-                                    <span 
-                                        className="task-text" 
-                                        style={{ textDecoration: task.completed ? 'line-through red 3px' : 'none' }}
-                                            >       
-                                                {task.title}
-                                                </span>
-                                </div>
-                                <button onClick={() => deleteTask(task._id)} className="delete-btn-red">
-                                    Borrar
-                                </button>
-                            </div>
-                        ))
-                    )}
-                </div>
-            )}
+            <div className="task-list">
+                {tasks.map(task => (
+                    <div key={task._id} className="task-item">
+                        <div className="task-left">
+                            <button 
+                                className="check-btn" 
+                                onClick={() => toggleComplete(task._id, task.completed)}
+                                style={{ backgroundColor: task.completed ? '#4a4ae2' : 'transparent', color: task.completed ? 'white' : '#4a4ae2' }}
+                            >
+                                {task.completed ? '●' : '○'}
+                            </button>
+                            
+                            {/* ESTA LÍNEA ES LA CLAVE: Estilo directo al hueso */}
+                            <span 
+                                style={{ 
+                                    textDecoration: task.completed ? 'line-through' : 'none', 
+                                    color: task.completed ? 'red' : 'black',
+                                    fontSize: '18px'
+                                }}
+                            >
+                                {task.title}
+                            </span>
+                        </div>
+                        <button onClick={() => deleteTask(task._id)} className="delete-btn-red">
+                            Borrar
+                        </button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }
