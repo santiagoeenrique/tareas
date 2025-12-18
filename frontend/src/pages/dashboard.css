@@ -113,7 +113,8 @@ input[type="checkbox"] {
     margin-bottom: 25px;
 }
 
-/* Botón Cerrar Sesión: Rojo, letras blancas, borde 4px */
+/*
+/* Botón Cerrar Sesión: Rojo, letras blancas, borde 4px 
 .logout-btn {
     background-color: #ff4d4d;
     color: white;
@@ -161,7 +162,7 @@ input[type="checkbox"] {
     gap: 15px;
 }
 
-/* Círculo para tachar a la izquierda */
+/* Círculo para tachar a la izquierda 
 .check-btn {
     background: none;
     border: 2px solid #ddd;
@@ -176,13 +177,13 @@ input[type="checkbox"] {
     justify-content: center;
 }
 
-/* Tachar con una línea cuando está completado */
+/* Tachar con una línea cuando está completado 
 .task-item.completed .task-text {
     text-decoration: line-through;
     color: #888;
 }
 
-/* Botón Borrar: Rojo, letras blancas, borde 4px */
+/* Botón Borrar: Rojo, letras blancas, borde 4px 
 .delete-btn-red {
     background-color: #ff4d4d;
     color: white;
@@ -197,17 +198,17 @@ input[type="checkbox"] {
 .delete-btn-red:hover {
     background-color: #cc0000;
 }
-/* Forzamos el tachado usando el contenedor padre */
+/* Forzamos el tachado usando el contenedor padre 
 .task-list .task-item.completed .task-text {
     text-decoration: line-through !important;
-    text-decoration-color: red !important; /* Opcional: línea roja para que se note más */
+    text-decoration-color: red !important; /* Opcional: línea roja para que se note más 
     color: #888 !important;
-    display: inline-block; /* A veces ayuda a que el text-decoration funcione */
+    display: inline-block; /* A veces ayuda a que el text-decoration funcione 
 }
 
-/* Estilo del círculo cuando está completado */
+/* Estilo del círculo cuando está completado
 .task-list .task-item.completed .check-btn {
     background-color: #4a4ae2 !important;
     color: white !important;
     border-color: #4a4ae2 !important;
-}
+}*/
