@@ -114,7 +114,7 @@ body {
 .task-item.completed span, 
 .task-item.completed .task-text {
     text-decoration: line-through !important;
-    text-decoration-color: #ff4d4d !important; /* Línea roja */
+    text-decoration-color: #767676 !important; /* Línea roja */
     text-decoration-thickness: 2px;
     color: #888 !important;
 }
@@ -144,8 +144,31 @@ body {
 .task-item.completed .task-text,
 .task-item.completed span {
     text-decoration: line-through !important;
-    text-decoration-color: red !important;
+    text-decoration-color: rgb(117, 117, 117) !important;
     text-decoration-thickness: 3px !important;
     color: #888 !important;
     display: inline-block !important;
+}
+/* 1. ESTILO PARA EL TEXTO TACHADO */
+/* Buscamos el span que está dentro de una tarea completada */
+.task-item.completed .task-text, 
+.task-item.completed span {
+    text-decoration: line-through !important;
+    text-decoration-color: #757575 !important; /* Línea roja para que se note */
+    text-decoration-thickness: 3px !important;
+    color: #888 !important;
+    opacity: 0.6;
+}
+
+/* 2. ESTILO PARA EL BOTÓN (Círculo) */
+/* Para que el punto se pinte de azul cuando está listo */
+.task-item.completed .check-btn {
+    background-color: #4a4ae2 !important;
+    color: white !important;
+    border-color: #4a4ae2 !important;
+}
+
+/* 3. OPCIONAL: Efecto al pasar el mouse */
+.task-item span:hover {
+    text-decoration: underline;
 }
